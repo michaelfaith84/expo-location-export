@@ -1,0 +1,37 @@
+{
+  "name": "expo-location-export",
+  "version": "1.0.0",
+  "description": "A simple package to convert raw expo-location output to geojson, gpx, and kml",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "expo",
+    "expo-location",
+    "geojson",
+    "kml",
+    "gpx",
+    "location",
+    "export",
+    "convert",
+    "conversion"
+  ],
+  "homepage": "https://github.com/michaelfaith84/expo-location-export",
+  "author": {
+    "name": "Michael Faith",
+    "email": "michael.p.faith@proton.me"
+  },
+  "bugs": {
+    "url": "https://github.com/michaelfaith84/expo-location-export/issues",
+    "email": "michael.p.faith@proton.me"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@turf/bbox": "^6.5.0",
+    "@turf/center": "^6.5.0",
+    "@turf/helpers": "^6.5.0",
+    "@turf/line-to-polygon": "^6.5.0",
+    "xmlbuilder2": "^3.0.2"
+  }
+}
