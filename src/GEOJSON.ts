@@ -73,17 +73,18 @@ export default class GEOJSON {
    */
   toPoint(dump: ExporterDump, options: GEOJSONExportPointOptions) {
     if (options.multiPoint !== undefined && options.multiPoint) {
-      this._toMultiPoint(dump, options);
+      return this._toMultiPoint(dump, options);
     } else {
-      this._toPoint(dump, options);
+      return this._toPoint(dump, options);
     }
   }
 
   /**
-   * Wrapper method for converting raw data to the specified LineString format
+   * Wrapper method for converting raw data to the specified LineString format.
+   * MultiLineString used for crossing the anti-meridian.
    *
    * @param dump
    * @param options
    */
-  static toLineString(dump: ExporterDump, options: GEOJSONExportOptions) {}
+  toLineString(dump: ExporterDump, options: GEOJSONExportOptions) {}
 }

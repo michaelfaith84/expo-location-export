@@ -7,14 +7,19 @@
 
             in a very opinionated manner.
 
-    Output defaults to pretty strings so you're ready to save as a file or share.
-
 v2.0.0<br/>
 
 - Rewritten in Typescript.
 - Broke out each format into separate modules.
 - Removed polygon functionality--it was unnecessary.
 - Switched XML rendering to fast-xml-parser.
+- Format Specific Changes:
+    - GEOJSON
+        - Output geometries: Point, MultiPoint, or LineString
+        - Wrappers: GeometryCollection, FeatureCollection, Feature, or none
+    - GPX
+        - Output types: WayPoint, Route, or Track
+    - KML
 
 v1.1.0<br/>
 
@@ -236,4 +241,4 @@ const newFoo = new Exporter(JSON.parse(localStorage.getItem('fooBar')))
 #### Built with
 
 - [Turf](https://github.com/Turfjs/turf)
-- [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser/)
+- [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser)

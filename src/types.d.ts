@@ -2,76 +2,70 @@ import {
   Feature,
   FeatureCollection,
   GeometryCollection,
-  LineString,
   MultiPoint,
   Point,
 } from "@turf/helpers";
 
+export interface GPSCoords {
+  accuracy: number;
+  altitude: number;
+  altitudeAccuracy: number;
+  heading: number;
+  latitude: number;
+  longitude: number;
+  speed: number;
+}
+
 export interface GPSReturn {
-  coords: {
-    accuracy: number;
-    altitude: number;
-    altitudeAccuracy: number;
-    heading: number;
-    latitude: number;
-    longitude: number;
-    speed: number;
-  };
+  coords: GPSCoords;
   mocked: boolean;
   timestamp: number;
 }
 
-// export interface DataDump {
-//     gps: Array<GPSReturn>;
-//     props;
-//     options: Partial<Options>;
-// }
-
 export interface ID {
-  id: string | number;
+  id?: string | number;
 }
 
-export interface Options {
+export interface Options extends ID {
   app: {
     name: string;
     url: string;
   };
-  id: ID;
   name: string;
 }
 
-export interface CommonParams {
-  gps: GPSReturn;
-  id?: ID;
-  props?: any;
+export interface Props {
+  [index: number]: any;
 }
 
-export interface ConstructorParams extends CommonParams {
-  global?: GlobalParams;
+type FlattenedGPSReturn = Omit<
+  GPSReturn,
+  "coords.altitude",
+  "coords.altitudeAccuracy"
+>;
+
+export interface GPSReturnFlattened {
+  coords: Omit<GPSCoords, "altitude", "altitudeAccuracy">;
+  mocked: boolean;
+  timestamp: number;
 }
 
-export interface GlobalParams {
+export interface GlobalParams extends ID {
   name?: string;
   url?: string;
+}
+
+export interface AddParams extends GPSReturn {
+  props?: Props;
   id?: ID;
 }
 
-export interface AddParams {
-  gps: GPSReturn;
-  props: any;
+export interface Flattened extends GPSReturnFlattened {
+  props?: Props;
+  id?: ID;
 }
 
-export interface LoadParams {
-  gps: Array<GPSReturn>;
-  props: any[];
-  options: Options;
-}
-
-export type CoordinatesArray = Array<[number, number, number]>;
-
-export type CoordinatesStringArray = Array<string>;
-
-export type ExporterDump = { data: CommonParams[]; global: GlobalParams };
+export type ExporterDump = { data: AddParams[]; global: GlobalParams };
 
 export type ExportFormat = "gpx" | "kml" | "geojson";
 
@@ -103,14 +97,6 @@ export type GEOJSONExportPointReturn<A extends GEOJSONWrapper> = A extends
       ? Point | MultiPoint
       : never;
 
-export type GEOJSONExportLineStringReturn<A extends GEOJSONWrapper> = A extends
-  | "feature"
-  | undefined
-  ? Feature
-  : A extends "geometry" | "none"
-    ? LineString
-    : never;
-
 export interface GPXExportOptions extends CommonExportOptions {}
 
 export interface KMLExportOptions extends CommonExportOptions {}
@@ -119,6 +105,3 @@ export type ExportOptions =
   | GEOJSONExportPointOptions
   | KMLExportOptions
   | GPXExportOptions;
-
-// export type ExportPointHandler<A extends ExportFormat> = A extends 'gpx' ? GPX:
-// export type ExportSeriesHandler<A extends ExportFormat> = A extends 'gpx' ? GPX:

@@ -1,5 +1,5 @@
 // expo-location-export
-const version = "1.0.1";
+const version = process.env.npm_package_version;
 const defaultApp = "expo-location-export";
 const defaultAppUrl = "https://github.com/michaelfaith84/expo-location-export";
 
