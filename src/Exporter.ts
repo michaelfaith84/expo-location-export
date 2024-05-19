@@ -1,4 +1,13 @@
-import {CommonParams, ConstructorParams, ExporterDump, ExportFormat, GlobalParams,} from "../types";
+import {
+  CommonParams,
+  ConstructorParams,
+  ExporterDump,
+  ExportFormat,
+  ExportOptions,
+  GlobalParams,
+  Position2D,
+  Position3D,
+} from "./types";
 
 /**
  * This handles raw GPS returns and load/dump. It should represent one object.
@@ -36,6 +45,30 @@ export class Exporter {
     } else {
       throw new Error("Constructor requires 'gps'");
     }
+  }
+
+  /**
+   *
+   * @param data
+   * @param flatten
+   * @private
+   */
+  private getCoords(
+    data: CommonParams[],
+    flatten = false,
+  ): Position2D[] | Position3D[] {
+    const coords: Position2D[] | Position3D[] = [];
+    data.forEach((item, i) =>
+      flatten !== undefined && flatten
+        ? // Strip altitude
+          (coords[i] = [item.gps.coords.longitude, item.gps.coords.latitude])
+        : (coords[i] = [
+            item.gps.coords.longitude,
+            item.gps.coords.latitude,
+            item.gps.coords.altitude,
+          ]),
+    );
+    return coords;
   }
 
   /**
@@ -83,7 +116,14 @@ export class Exporter {
     };
   }
 
-  toPoint(format: ExportFormat, raw = false) {
+  /**
+   *
+   * @param format
+   * @param options
+   */
+  toPoint(format: ExportFormat, options: ExportOptions) {
+    const dump = this.dump();
+
     switch (format.toLowerCase()) {
       case "gpx":
         return "";
@@ -96,6 +136,11 @@ export class Exporter {
     }
   }
 
+  /**
+   *
+   * @param format
+   * @param raw
+   */
   toSeries(format: ExportFormat, raw = false) {
     switch (format.toLowerCase()) {
       case "gpx":

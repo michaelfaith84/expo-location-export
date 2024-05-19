@@ -9,6 +9,13 @@
 
     Output defaults to pretty strings so you're ready to save as a file or share.
 
+v2.0.0<br/>
+
+- Rewritten in Typescript.
+- Broke out each format into separate modules.
+- Removed polygon functionality--it was unnecessary.
+- Switched XML rendering to fast-xml-parser.
+
 v1.1.0<br/>
 
 - Removed 'load' method -> the constructor can take the dump as the param
@@ -229,4 +236,4 @@ const newFoo = new Exporter(JSON.parse(localStorage.getItem('fooBar')))
 #### Built with
 
 - [Turf](https://github.com/Turfjs/turf)
-- [xmlbuilder2](https://github.com/oozcitak/xmlbuilder2)
+- [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser/)
