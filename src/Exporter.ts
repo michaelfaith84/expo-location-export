@@ -1,4 +1,3 @@
-// import { PACKAGE_INFO } from "./pkgInfo";
 import PACKAGE_INFO from "../package.json";
 import {
   AddParams,

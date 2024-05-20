@@ -1,5 +1,5 @@
 import Exporter from "../src/Exporter";
-import { PACKAGE_INFO } from "../src/pkgInfo";
+import PACKAGE_INFO from "../package.json";
 import { exampleGPSReturn, exampleGPSReturnSeries } from "./test.data";
 
 describe("Single Basic", () => {

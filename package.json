@@ -4,7 +4,6 @@
   "description": "A simple package to convert raw expo-location output to geojson, gpx, and kml",
   "main": "index.js",
   "scripts": {
-    "prebuild": "node -p \"'export const PACKAGE_INFO = {\\n\\tname: ' + JSON.stringify(require('./package.json').name) + ',\\n\\tversion: ' + JSON.stringify(require('./package.json').version) + ',\\n\\thomepage: ' + JSON.stringify(require('./package.json').homepage) + '\\n};'\" > src/pkgInfo.ts",
     "pretest": "tsc --noEmit",
     "test": "jest",
     "build": ""
