@@ -31,7 +31,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
   {
     coords: {
       accuracy: 11.553999900817871,
-      altitude: 36.900001525878906,
+      altitude: 20.900001525878906,
       altitudeAccuracy: 2.5298962593078613,
       heading: 0,
       latitude: 48.757579457500185,
@@ -44,7 +44,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
   {
     coords: {
       accuracy: 11.553999900817871,
-      altitude: 36.900001525878906,
+      altitude: 24.900001525878906,
       altitudeAccuracy: 2.5298962593078613,
       heading: 0,
       latitude: 48.75744351363383,
@@ -57,7 +57,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
   {
     coords: {
       accuracy: 11.553999900817871,
-      altitude: 36.900001525878906,
+      altitude: 22.900001525878906,
       altitudeAccuracy: 2.5298962593078613,
       heading: 0,
       latitude: 48.7573367003379,
@@ -70,7 +70,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
   {
     coords: {
       accuracy: 11.553999900817871,
-      altitude: 36.900001525878906,
+      altitude: 28.900001525878906,
       altitudeAccuracy: 2.5298962593078613,
       heading: 0,
       latitude: 48.757161914454656,
@@ -83,7 +83,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
   {
     coords: {
       accuracy: 11.553999900817871,
-      altitude: 36.900001525878906,
+      altitude: 32.900001525878906,
       altitudeAccuracy: 2.5298962593078613,
       heading: 0,
       latitude: 48.75703567982737,
@@ -109,7 +109,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
   {
     coords: {
       accuracy: 11.553999900817871,
-      altitude: 36.900001525878906,
+      altitude: 45.900001525878906,
       altitudeAccuracy: 2.5298962593078613,
       heading: 0,
       latitude: 48.75698712796324,

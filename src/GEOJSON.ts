@@ -1,6 +1,13 @@
 // https://datatracker.ietf.org/doc/html/rfc7946
 
-import {ExporterDump, GEOJSONExportOptions, GEOJSONExportPointOptions,} from "./types";
+import {
+  AddParams,
+  ExporterDump,
+  Flattened,
+  GEOJSONExportOptions,
+  GEOJSONExportPointOptions,
+  GlobalParams,
+} from "./types";
 import {
   Feature,
   FeatureCollection,
@@ -71,7 +78,10 @@ export default class GEOJSON {
    * @param dump
    * @param options
    */
-  toPoint(dump: ExporterDump, options: GEOJSONExportPointOptions) {
+  toPoint(
+    dump: { data: AddParams[] | Flattened[]; global: GlobalParams },
+    options: GEOJSONExportPointOptions,
+  ) {
     if (options.multiPoint !== undefined && options.multiPoint) {
       return this._toMultiPoint(dump, options);
     } else {

@@ -38,6 +38,9 @@
     "node-jq": "^4.3.2"
   },
   "devDependencies": {
+    "@turf/bbox-polygon": "^6.5.0",
+    "@turf/boolean-contains": "^6.5.0",
+    "@turf/buffer": "^6.5.0",
     "@turf/invariant": "^6.5.0",
     "@types/jest": "^29.5.4",
     "eslint": "^8.43.0",

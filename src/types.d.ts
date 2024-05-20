@@ -72,6 +72,15 @@ export type ExportFormat = "gpx" | "kml" | "geojson";
 export type Position2D = [number, number];
 export type Position3D = [number, number, number];
 
+/**
+ * [west, south, east, north]
+ */
+export type BBox2d = [number, number, number, number];
+/**
+ * [west, south, min-altitude, east, north, max-altitude]
+ */
+export type BBox3d = [number, number, number, number, number, number];
+
 export interface CommonExportOptions {
   flatten?: boolean;
   bbox?: boolean;
