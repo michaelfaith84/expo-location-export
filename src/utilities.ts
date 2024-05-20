@@ -102,7 +102,7 @@ export const getCoords = (data: Data[]): Position[] => {
  *
  * @param data
  */
-export const manyToOnePropsHandler = (data: Data[]): Properties => {
+export const manyToOnePropsHandler = (data: Data[]): Properties | null => {
   const cloned = cloneDeep(data);
 
   for (let i = 0; i < cloned.length; i++) {

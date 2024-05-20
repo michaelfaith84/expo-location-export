@@ -22,17 +22,7 @@ export interface GPSReturn {
   timestamp: number;
 }
 
-export interface ID {
-  id?: string | number;
-}
-
-export interface Options extends ID {
-  app: {
-    name: string;
-    url: string;
-  };
-  name: string;
-}
+export type ID = string | number;
 
 export interface Props {
   [index: number | string]: any;
@@ -50,9 +40,10 @@ export interface GPSReturnFlattened {
   timestamp: number;
 }
 
-export interface GlobalParams extends ID {
+export interface GlobalParams {
   name?: string;
   url?: string;
+  id?: ID;
 }
 
 export interface Data extends GPSReturn {

@@ -2,20 +2,20 @@
 
 import {BBox2d, BBox3d, Data, GEOJSONExportOptions, GEOJSONExportPointOptions, GlobalParams,} from "./types";
 import {
-  Feature,
-  featureCollection,
-  Geometry,
-  geometryCollection,
-  Id,
-  lineString,
-  LineString,
-  MultiLineString,
-  multiPoint,
-  MultiPoint,
-  MultiPolygon,
-  point,
-  Point,
-  Polygon,
+    Feature,
+    featureCollection,
+    Geometry,
+    geometryCollection,
+    Id,
+    lineString,
+    LineString,
+    MultiLineString,
+    multiPoint,
+    MultiPoint,
+    MultiPolygon,
+    point,
+    Point,
+    Polygon,
 } from "@turf/helpers";
 import {getBBox, getCoords, manyToOnePropsHandler} from "./utilities";
 
@@ -83,6 +83,7 @@ export default class GEOJSON {
     const coords = getCoords(data);
     let points: Feature[] = data.map((ea, i) => {
       const p = point(coords[i]);
+
       if (ea.id !== undefined) {
         p.id = ea.id as Id;
       }

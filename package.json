@@ -34,8 +34,7 @@
     "@turf/center": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "fast-xml-parser": "^4.4.0",
-    "lodash.clonedeep": "^4.5.0",
-    "node-jq": "^4.3.2"
+    "lodash.clonedeep": "^4.5.0"
   },
   "devDependencies": {
     "@turf/bbox-polygon": "^6.5.0",

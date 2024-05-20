@@ -9,7 +9,8 @@ import {
 import GEOJSON from "./GEOJSON";
 import GPX from "./GPX";
 import KML from "./KML";
-import { flatten } from "./utilities";
+import { flatten, getBBox } from "./utilities";
+import cloneDeep from "lodash.clonedeep";
 
 const geojson = new GEOJSON();
 const gpx = new GPX();
@@ -20,8 +21,8 @@ const kml = new KML();
  * IE, a point/multi-point, linestring, etc.
  */
 export class Exporter {
-  data: Data[];
-  global: GlobalParams;
+  private _data: Data[];
+  private _global: GlobalParams;
 
   /**
    *
@@ -31,31 +32,37 @@ export class Exporter {
    * @param {string} [params.url=] Application url. Defaults to this repo
    */
   constructor(params: GlobalParams = {}) {
-    this.data = [];
-    this.global = {};
+    this._data = [];
+    this._global = {};
 
     if (params.id) {
-      this.global.id = params.id;
+      this._global.id = params.id;
     }
 
-    this.global.name =
+    this._global.name =
       params.name ?? `${PACKAGE_INFO.name}@${PACKAGE_INFO.version}`;
-    this.global.url = params.url ?? PACKAGE_INFO.homepage;
+    this._global.url = params.url ?? PACKAGE_INFO.homepage;
+  }
+
+  get data(): Data[] {
+    return cloneDeep(this._data);
+  }
+
+  get global(): GlobalParams {
+    return cloneDeep(this._global);
   }
 
   /**
    * Removes altitude fields.
    *
-   * @param data
    * @private
    */
   private _flatten() {
     return this.data.map((ea) => flatten(ea));
   }
 
-  private _getBBOX() {}
-
   /**
+   *
    *
    * @param params
    */
@@ -102,9 +109,13 @@ export class Exporter {
    * @param {ExportFormat} format
    * @param {ExportPointOptions} options
    */
-  toPoint(format: ExportFormat, options: ExportOptions) {
+  toPoint(format: ExportFormat, options: ExportOptions = {}) {
     // Prep our data as a new object
-    const data = options.flatten ? [...this._flatten()] : [...this.data];
+    const data = options.flatten ? this._flatten() : this.data;
+
+    if (options.bbox) {
+      options.bbox = getBBox(data);
+    }
 
     switch (format.toLowerCase()) {
       case "geojson":
@@ -122,9 +133,15 @@ export class Exporter {
    * Export as a LineString.
    *
    * @param format
-   * @param raw
+   * @param options
    */
-  toLine(format: ExportFormat, raw = false) {
+  toLine(format: ExportFormat, options: ExportOptions = {}) {
+    // Prep our data as a new object
+    const data = options.flatten ? this._flatten() : this.data;
+    if (options.bbox) {
+      options.bbox = getBBox(data);
+    }
+
     switch (format.toLowerCase()) {
       case "geojson":
         return "";

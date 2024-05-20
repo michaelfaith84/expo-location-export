@@ -14,6 +14,7 @@ import {
 } from "@turf/helpers";
 import { flatten, getCoords } from "../src/utilities";
 import { Data } from "../src/types";
+import cloneDeep from "lodash.clonedeep";
 
 const geojson = new GEOJSON();
 
@@ -59,13 +60,18 @@ describe("GEOJSON Point conversion", () => {
   });
 
   test("Many Points to FeatureCollection", () => {
-    const points = geojson.toPoint([...exampleGPSReturnSeries], defaultGlobal, {
+    const data = cloneDeep(exampleGPSReturnSeries) as Data[];
+    data.forEach((ea, i) => {
+      data[i].id = i;
+    });
+    const points = geojson.toPoint(data, defaultGlobal, {
       bbox: true,
     }) as FeatureCollection<Point>;
     expect(points.type).toEqual("FeatureCollection");
     expect(points.features.length).toBe(exampleGPSReturnSeries.length);
     expect(points.bbox).toBeDefined();
     expect(points.bbox?.length).toBe(6);
+    expect(points.features.every((ea, i) => ea.id === i)).toBeTruthy();
   });
 
   test("Many Points to 2d FeatureCollection", () => {

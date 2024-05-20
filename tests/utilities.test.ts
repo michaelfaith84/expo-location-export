@@ -79,12 +79,23 @@ describe("manyToOnePropsHandler", () => {
     data[exampleGPSReturnSeries.length - 1].props = testProps1;
     expect(manyToOnePropsHandler(data)).toEqual(testProps1);
   });
+
+  test("No data", () => {
+    const res = () => manyToOnePropsHandler([]);
+    expect(res).toThrowError("No props found.");
+  });
 });
 
 describe("getCoords", () => {
   test("Single GPSReturn", () => {
     const res = getCoords([{ ...exampleGPSReturn }]) as Position3D[];
     expect(res.length).toBe(1);
+    expect(res[0].length).toBe(3);
+  });
+
+  test("Many GPS returns", () => {
+    const res = getCoords(exampleGPSReturnSeries);
+    expect(res.length).toBe(exampleGPSReturnSeries.length);
     expect(res[0].length).toBe(3);
   });
 });
