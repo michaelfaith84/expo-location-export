@@ -110,6 +110,8 @@ export interface GPXExportOptions extends CommonExportOptions {}
 
 export interface KMLExportOptions extends CommonExportOptions {}
 
+export type ExportPointOptions = GEOJSONExportPointOptions;
+
 export type ExportOptions =
   | GEOJSONExportPointOptions
   | KMLExportOptions

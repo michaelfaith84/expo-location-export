@@ -1,5 +1,8 @@
 // https://developers.google.com/kml/documentation/kml_tut
 
+const kmlVersion = "2.2";
+const kmlNS = "https://www.opengis.net/kml/2.2";
+
 export default class KML {
   /**
    * Points

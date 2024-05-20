@@ -1,4 +1,5 @@
-import { PACKAGE_INFO } from "./pkgInfo";
+// import { PACKAGE_INFO } from "./pkgInfo";
+import PACKAGE_INFO from "../package.json";
 import {
   AddParams,
   ExporterDump,
@@ -9,7 +10,7 @@ import {
 import GEOJSON from "./GEOJSON";
 import GPX from "./GPX";
 import KML from "./KML";
-import { flatten } from "./utlities";
+import { flatten } from "./utilities";
 
 const geojson = new GEOJSON();
 const gpx = new GPX();
@@ -97,9 +98,10 @@ export class Exporter {
   }
 
   /**
+   * Export as a Point or MultiPoint.
    *
-   * @param format
-   * @param options
+   * @param {ExportFormat} format
+   * @param {ExportPointOptions} options
    */
   toPoint(format: ExportFormat, options: ExportOptions) {
     const dump = this.dump();
@@ -117,11 +119,12 @@ export class Exporter {
   }
 
   /**
+   * Export as a LineString.
    *
    * @param format
    * @param raw
    */
-  toSeries(format: ExportFormat, raw = false) {
+  toLine(format: ExportFormat, raw = false) {
     switch (format.toLowerCase()) {
       case "geojson":
         return "";

@@ -7,29 +7,35 @@
 
             in a very opinionated manner.
 
-v2.0.0<br/>
+v2.0.0
 
 - Rewritten in Typescript.
 - Broke out each format into separate modules.
+    - Decoupled GPX and KML from GEOJSON.
 - Removed polygon functionality--it was unnecessary.
 - Switched XML rendering to fast-xml-parser.
 - Format Specific Changes:
     - GEOJSON
-        - Output geometries: Point, MultiPoint, or LineString
-        - Wrappers: GeometryCollection, FeatureCollection, Feature, or none
+        - Output geometries: Point, MultiPoint, or LineString.
+        - Wrappers: GeometryCollection, FeatureCollection, Feature, or none.
     - GPX
-        - Output types: WayPoint, Route, or Track
+        - Output types: WayPoint, Route, or Track.
     - KML
 
-v1.1.0<br/>
+<details>
+<summary>Past Versions</summary>
+
+v1.1.0
 
 - Removed 'load' method -> the constructor can take the dump as the param
 
-v1.0.1<br/>
+v1.0.1
 
 - Switched to the AirBNB Styleguide.
 - Changed the switch 'type' parameter to lowercase.
 - Corrected license year (2022 not 2021)
+
+</details>
 
 Read more about [expo-location](https://github.com/expo/expo-location).
 <details>

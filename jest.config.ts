@@ -1,17 +1,18 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
+  preset: "ts-jest",
+  testEnvironment: "node",
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },
-  "collectCoverage": true,
-  "collectCoverageFrom": [
-    "**/*.js",
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "**/src/*.ts",
     "!**/*.d.ts",
     "!**/coverage/**",
     "!**/node_modules/**",
     "!**/babel.config.js",
     "!**/jest.setup.js",
-    "!**/jest.config.js"]
+    "!**/jest.config.js",
+  ],
 };

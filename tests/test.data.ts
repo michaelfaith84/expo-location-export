@@ -1,5 +1,4 @@
-import GPSReturn from "../gpsReturn";
-import { FlattenedGPSReturn } from "../src/types";
+import { FlattenedGPSReturn, GPSReturn } from "../src/types";
 
 export const exampleGPSReturn: GPSReturn = {
   coords: {
