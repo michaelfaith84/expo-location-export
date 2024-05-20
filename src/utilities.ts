@@ -1,14 +1,18 @@
-import {AddParams, BBox2d, BBox3d, Flattened} from "./types";
+import {BBox2d, BBox3d, Data, Flattened} from "./types";
+import {Position, Properties} from "@turf/helpers";
+import cloneDeep from "lodash.clonedeep";
 
 /**
  * Removes altitude fields from a GPS return.
  *
  * @param data
  */
-export const flatten = (data: AddParams): Flattened => {
+export const flatten = (data: Data): Flattened => {
+  const cloned = cloneDeep(data);
+
   return {
-    ...data,
-    coords: (({ altitude, altitudeAccuracy, ...o }) => o)(data.coords),
+    ...cloned,
+    coords: (({ altitude, altitudeAccuracy, ...o }) => o)(cloned.coords),
   };
 };
 
@@ -21,7 +25,7 @@ export const flatten = (data: AddParams): Flattened => {
  *
  * @param data
  */
-export const getBBox = (data: AddParams[] | Flattened[]): BBox2d | BBox3d => {
+export const getBBox = (data: Data[] | Flattened[]): BBox2d | BBox3d => {
   if (data[0].coords.hasOwnProperty("altitude")) {
     const result = [
       Infinity,
@@ -32,7 +36,7 @@ export const getBBox = (data: AddParams[] | Flattened[]): BBox2d | BBox3d => {
       -Infinity,
     ];
 
-    data.forEach((ea: AddParams) => {
+    data.forEach((ea: Data) => {
       if (result[0] > ea.coords.longitude) {
         result[0] = ea.coords.longitude;
       }
@@ -74,4 +78,38 @@ export const getBBox = (data: AddParams[] | Flattened[]): BBox2d | BBox3d => {
 
     return result as BBox2d;
   }
+};
+
+/**
+ * Returns an array of Positions
+ *
+ * @param data
+ */
+export const getCoords = (data: Data[]): Position[] => {
+  return data.map((ea) => {
+    let coords = [ea.coords.longitude, ea.coords.latitude];
+
+    if (ea.coords.hasOwnProperty("altitude")) {
+      coords.push(ea.coords.altitude);
+    }
+
+    return coords;
+  });
+};
+
+/**
+ * Returns the first set of props found or throws an error.
+ *
+ * @param data
+ */
+export const manyToOnePropsHandler = (data: Data[]): Properties => {
+  const cloned = cloneDeep(data);
+
+  for (let i = 0; i < cloned.length; i++) {
+    if (cloned[i].props) {
+      return cloned[i].props as Properties;
+    }
+  }
+
+  throw new Error("No props found.");
 };

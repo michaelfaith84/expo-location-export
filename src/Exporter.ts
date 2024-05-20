@@ -1,6 +1,6 @@
 import PACKAGE_INFO from "../package.json";
 import {
-  AddParams,
+  Data,
   ExporterDump,
   ExportFormat,
   ExportOptions,
@@ -20,7 +20,7 @@ const kml = new KML();
  * IE, a point/multi-point, linestring, etc.
  */
 export class Exporter {
-  data: AddParams[];
+  data: Data[];
   global: GlobalParams;
 
   /**
@@ -59,7 +59,7 @@ export class Exporter {
    *
    * @param params
    */
-  add(params: AddParams) {
+  add(params: Data) {
     if (params.hasOwnProperty("coords")) {
       this.data.push(params);
     } else {
@@ -103,11 +103,12 @@ export class Exporter {
    * @param {ExportPointOptions} options
    */
   toPoint(format: ExportFormat, options: ExportOptions) {
-    const dump = this.dump();
+    // Prep our data as a new object
+    const data = options.flatten ? [...this._flatten()] : [...this.data];
 
     switch (format.toLowerCase()) {
       case "geojson":
-      // return geojson.toPoint(dump, options);
+        return geojson.toPoint(data, this.global, options);
       case "gpx":
         return "";
       case "kml":

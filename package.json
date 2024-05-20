@@ -34,6 +34,7 @@
     "@turf/center": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "fast-xml-parser": "^4.4.0",
+    "lodash.clonedeep": "^4.5.0",
     "node-jq": "^4.3.2"
   },
   "devDependencies": {
@@ -42,6 +43,7 @@
     "@turf/buffer": "^6.5.0",
     "@turf/invariant": "^6.5.0",
     "@types/jest": "^29.5.4",
+    "@types/lodash.clonedeep": "^4.5.9",
     "eslint": "^8.43.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.27.5",

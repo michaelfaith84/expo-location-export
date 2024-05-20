@@ -1,4 +1,10 @@
+import PACKAGE_INFO from "../package.json";
 import { FlattenedGPSReturn, GPSReturn } from "../src/types";
+
+export const defaultGlobal = {
+  name: PACKAGE_INFO.name,
+  url: PACKAGE_INFO.homepage,
+};
 
 export const exampleGPSReturn: GPSReturn = {
   coords: {

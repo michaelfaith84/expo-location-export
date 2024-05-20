@@ -35,7 +35,7 @@ export interface Options extends ID {
 }
 
 export interface Props {
-  [index: number]: any;
+  [index: number | string]: any;
 }
 
 type FlattenedGPSReturn = Omit<
@@ -55,7 +55,7 @@ export interface GlobalParams extends ID {
   url?: string;
 }
 
-export interface AddParams extends GPSReturn {
+export interface Data extends GPSReturn {
   props?: Props;
   id?: ID;
 }
@@ -83,7 +83,7 @@ export type BBox3d = [number, number, number, number, number, number];
 
 export interface CommonExportOptions {
   flatten?: boolean;
-  bbox?: boolean;
+  bbox?: boolean | BBox2d | BBox3d;
 }
 
 type GEOJSONWrapper = "feature" | "geometry" | "none";
