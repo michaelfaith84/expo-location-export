@@ -14,12 +14,14 @@ v2.0.0
     - Decoupled GPX and KML from GEOJSON.
 - Removed polygon functionality--it was unnecessary.
 - Switched XML rendering to fast-xml-parser.
-- Format Specific Changes:
+- Format Specific Details:
     - GEOJSON
         - Output geometries: Point, MultiPoint, or LineString.
         - Wrappers: GeometryCollection, FeatureCollection, Feature, or none.
     - GPX
         - Output types: WayPoint, Route, or Track.
+        - Metadata is stored in the "global" property.
+            - Metadata extensions are not supported.
     - KML
 
 <details>

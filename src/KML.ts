@@ -3,7 +3,7 @@
 const kmlVersion = "2.2";
 const kmlNS = "https://www.opengis.net/kml/2.2";
 
-export default class KML {
+class KML {
   /**
    * Points
    * Keys: name, description, Point
@@ -16,3 +16,5 @@ export default class KML {
    */
   static toPath() {}
 }
+
+export default KML;

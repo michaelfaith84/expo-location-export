@@ -2,20 +2,20 @@
 
 import {BBox2d, BBox3d, Data, GEOJSONExportOptions, GEOJSONExportPointOptions, GlobalParams,} from "./types";
 import {
-    Feature,
-    featureCollection,
-    Geometry,
-    geometryCollection,
-    Id,
-    lineString,
-    LineString,
-    MultiLineString,
-    multiPoint,
-    MultiPoint,
-    MultiPolygon,
-    point,
-    Point,
-    Polygon,
+  Feature,
+  featureCollection,
+  Geometry,
+  geometryCollection,
+  Id,
+  LineString,
+  lineString,
+  MultiLineString,
+  MultiPoint,
+  multiPoint,
+  MultiPolygon,
+  Point,
+  point,
+  Polygon,
 } from "@turf/helpers";
 import {getBBox, getCoords, manyToOnePropsHandler} from "./utilities";
 
@@ -24,7 +24,7 @@ import {getBBox, getCoords, manyToOnePropsHandler} from "./utilities";
  *
  * Defaults to returning a Feature or FeatureCollection.
  */
-export default class GEOJSON {
+class GEOJSON {
   /**
    * Converts an array of Features to a GeometryCollection
    *
@@ -232,3 +232,5 @@ export default class GEOJSON {
     return ls;
   }
 }
+
+export default GEOJSON;

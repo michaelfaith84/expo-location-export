@@ -1,4 +1,4 @@
-import {BBox2d, BBox3d, Data, Flattened} from "./types";
+import {BBox2d, BBox3d, Data, Flattened, GPXBounds,} from "./types";
 import {Position, Properties} from "@turf/helpers";
 import cloneDeep from "lodash.clonedeep";
 
@@ -81,7 +81,7 @@ export const getBBox = (data: Data[] | Flattened[]): BBox2d | BBox3d => {
 };
 
 /**
- * Returns an array of Positions
+ * Returns an array of Positions.
  *
  * @param data
  */
@@ -100,6 +100,9 @@ export const getCoords = (data: Data[]): Position[] => {
 /**
  * Returns the first set of props found or throws an error.
  *
+ * Used for mapping props on individual returns to a single Feature, ie,
+ * Feature<MultiPolygon> or Feature<MultiPoint>.
+ *
  * @param data
  */
 export const manyToOnePropsHandler = (data: Data[]): Properties | null => {
@@ -112,4 +115,32 @@ export const manyToOnePropsHandler = (data: Data[]): Properties | null => {
   }
 
   throw new Error("No props found.");
+};
+
+/**
+ * Bounds are used by GPX.
+ *
+ * @param bbox
+ */
+export const bboxToBounds = (bbox: BBox2d | BBox3d) => {
+  const bounds: GPXBounds = {
+    minlat: Infinity,
+    minlon: Infinity,
+    maxlat: -Infinity,
+    maxlon: -Infinity,
+  };
+
+  if (bbox.length == 4) {
+    bounds.minlat = bbox[1] < bbox[3] ? bbox[1] : bbox[3];
+    bounds.minlon = bbox[0] < bbox[2] ? bbox[0] : bbox[2];
+    bounds.maxlat = bbox[1] > bbox[3] ? bbox[1] : bbox[3];
+    bounds.minlon = bbox[0] > bbox[2] ? bbox[0] : bbox[2];
+  } else {
+    bounds.minlat = bbox[1] < bbox[4] ? bbox[1] : bbox[4];
+    bounds.minlon = bbox[0] < bbox[3] ? bbox[0] : bbox[3];
+    bounds.maxlat = bbox[1] > bbox[4] ? bbox[1] : bbox[4];
+    bounds.minlon = bbox[0] > bbox[3] ? bbox[0] : bbox[3];
+  }
+
+  return bounds;
 };

@@ -20,7 +20,7 @@ const kml = new KML();
  * This handles raw GPS returns and load/dump. It should represent one object.
  * IE, a point/multi-point, linestring, etc.
  */
-export class Exporter {
+class Exporter {
   private _data: Data[];
   private _global: GlobalParams;
 
@@ -64,11 +64,11 @@ export class Exporter {
   /**
    *
    *
-   * @param params
+   * @param data
    */
-  add(params: Data) {
-    if (params.hasOwnProperty("coords")) {
-      this.data.push(params);
+  add(data: Data) {
+    if (data.hasOwnProperty("coords")) {
+      this._data.push(data);
     } else {
       throw new Error("Cannot add to Exporter with 'gps'");
     }
@@ -121,7 +121,7 @@ export class Exporter {
       case "geojson":
         return geojson.toPoint(data, this.global, options);
       case "gpx":
-        return "";
+        return gpx.toPoint(data, this.global, options);
       case "kml":
         return "";
       default:
@@ -136,17 +136,19 @@ export class Exporter {
    * @param options
    */
   toLine(format: ExportFormat, options: ExportOptions = {}) {
-    // Prep our data as a new object
+    // Prep our data as a new object. Flatten if called for.
     const data = options.flatten ? this._flatten() : this.data;
+
+    // Generate a bounding box and replace the boolean value.
     if (options.bbox) {
       options.bbox = getBBox(data);
     }
 
     switch (format.toLowerCase()) {
       case "geojson":
-        return "";
+        return geojson.toLineString(data, this.global, options);
       case "gpx":
-        return "";
+        return gpx.toLine(data, this.global, options);
       case "kml":
         return "";
       default:
