@@ -144,3 +144,41 @@ export const bboxToBounds = (bbox: BBox2d | BBox3d) => {
 
   return bounds;
 };
+
+export const validateEmail = (email: string): boolean => {
+  const re = new RegExp(/^[^s@]+@[^s@]+.[^s@]+$/);
+  return re.test(email);
+};
+
+/**
+ * Returns the [user, domain]
+ *
+ * @param email
+ */
+export const splitEmail = (email: string): string[] => {
+  return email.split("@");
+};
+
+export const validateLatitude = (latitude: number) => {
+  return latitude < 90 && latitude > -90;
+};
+
+export const validateLongitude = (longitude: number) => {
+  return longitude < 180 && longitude > -180;
+};
+
+export const validatePosition = (position: Position) => {
+  return validateLongitude(position[0]) && validateLatitude(position[1]);
+};
+
+export const isValidUrl = (string: string) => {
+  let url;
+
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+};

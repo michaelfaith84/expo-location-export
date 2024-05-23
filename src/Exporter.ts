@@ -42,6 +42,10 @@ class Exporter {
     this._global.name =
       params.name ?? `${PACKAGE_INFO.name}@${PACKAGE_INFO.version}`;
     this._global.url = params.url ?? PACKAGE_INFO.homepage;
+
+    if (params.metadata) {
+      this._global.metadata = params.metadata;
+    }
   }
 
   get data(): Data[] {
@@ -148,7 +152,7 @@ class Exporter {
       case "geojson":
         return geojson.toLineString(data, this.global, options);
       case "gpx":
-        return gpx.toLine(data, this.global, options);
+        return gpx.toTrack(data, this.global, options);
       case "kml":
         return "";
       default:

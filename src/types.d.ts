@@ -6,34 +6,6 @@ import {
   Point,
 } from "@turf/helpers";
 
-type CreateArrayWithLengthX<
-  LENGTH extends number,
-  ACC extends unknown[] = [],
-> = ACC["length"] extends LENGTH
-  ? ACC
-  : CreateArrayWithLengthX<LENGTH, [...ACC, 1]>;
-
-type NumericRange<
-  START_ARR extends number[],
-  END extends number,
-  ACC extends number = never,
-> = START_ARR["length"] extends END
-  ? ACC | END
-  : NumericRange<[...START_ARR, 1], END, ACC | START_ARR["length"]>;
-
-// export type Longitude = NumericRange<CreateArrayWithLengthX<-180>, 180>;
-// export type Latitude = NumericRange<CreateArrayWithLengthX<-90>, 90>;
-
-export type Longitude = number;
-export type Latitude = number;
-
-/**
- * 2015 - 3000
- *
- * React Native was released in 2015 and Futurama.
- */
-export type DateRange = NumericRange<CreateArrayWithLengthX<2015>, 3000>;
-
 export interface GPSCoords {
   accuracy: number;
   altitude: number;
@@ -72,6 +44,7 @@ export interface GlobalParams {
   name?: string;
   url?: string;
   id?: ID;
+  metadata?: GPXMetaData;
 }
 
 export interface Data extends GPSReturn {
@@ -88,17 +61,17 @@ export type ExporterDump = { data: AddParams[]; global: GlobalParams };
 
 export type ExportFormat = "gpx" | "kml" | "geojson";
 
-export type Position2D = [Longitude, Latitude];
-export type Position3D = [Longitude, Latitude, number];
+export type Position2D = [number, number];
+export type Position3D = [number, number, number];
 
 /**
  * [west, south, east, north]
  */
-export type BBox2d = [Longitude, Latitude, Longitude, Latitude];
+export type BBox2d = [number, number, number, number];
 /**
  * [west, south, min-altitude, east, north, max-altitude]
  */
-export type BBox3d = [Longitude, Latitude, number, Longitude, Latitude, number];
+export type BBox3d = [number, number, number, number, number, number];
 
 export interface CommonExportOptions {
   flatten?: boolean;
@@ -125,7 +98,7 @@ export type GEOJSONExportPointReturn<A extends GEOJSONWrapper> = A extends
       ? Point | MultiPoint
       : never;
 
-export interface GPXExportLineOptions extends GPXExportOptions {
+export interface GPXExportTrackOptions extends GPXExportOptions {
   type?: "track" | "route";
 }
 
@@ -158,7 +131,7 @@ export interface GPXLink {
   // Hyperlink text
   text: string;
   // Mime type
-  type: string;
+  type?: string;
 }
 
 export interface GPXPerson {
@@ -169,10 +142,10 @@ export interface GPXPerson {
 }
 
 export interface GPXBounds {
-  minlat: Latitude;
-  minlon: Longitude;
-  maxlat: Latitude;
-  maxlon: Longitude;
+  minlat: number;
+  minlon: number;
+  maxlat: number;
+  maxlon: number;
 }
 
 export interface GPXMetaData {
@@ -181,8 +154,9 @@ export interface GPXMetaData {
   author?: GPXPerson;
   // Copyright has an author attribute which represents the copyright holder
   copyright?: {
-    year: DateRange;
-    license: URL;
+    year: number;
+    // Url
+    license: string;
   };
   link?: GPXLink;
   // Creation datetime

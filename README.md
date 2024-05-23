@@ -14,14 +14,14 @@ v2.0.0
     - Decoupled GPX and KML from GEOJSON.
 - Removed polygon functionality--it was unnecessary.
 - Switched XML rendering to fast-xml-parser.
+- Links don't provide or validate mime types for the sake of sanity.
 - Format Specific Details:
     - GEOJSON
         - Output geometries: Point, MultiPoint, or LineString.
         - Wrappers: GeometryCollection, FeatureCollection, Feature, or none.
     - GPX
-        - Output types: WayPoint, Route, or Track.
+        - Output types: WayPoint or Track.
         - Metadata is stored in the "global" property.
-            - Metadata extensions are not supported.
     - KML
 
 <details>
@@ -248,5 +248,7 @@ const newFoo = new Exporter(JSON.parse(localStorage.getItem('fooBar')))
 
 #### Built with
 
-- [Turf](https://github.com/Turfjs/turf)
+- [Typescript](https://github.com/microsoft/TypeScript)
+- [Turf.js](https://github.com/Turfjs/turf)
 - [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser)
+- [Lodash](https://github.com/lodash/lodash)'s cloneDeep
