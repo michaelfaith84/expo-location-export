@@ -1,6 +1,13 @@
 // https://datatracker.ietf.org/doc/html/rfc7946
 
-import {BBox2d, BBox3d, Data, GEOJSONExportOptions, GEOJSONExportPointOptions, GlobalParams,} from "./types";
+import {
+  BBox2d,
+  BBox3d,
+  Data,
+  GEOJSONExportOptions,
+  GEOJSONExportPointOptions,
+  GlobalParams,
+} from "./types";
 import {
   Feature,
   featureCollection,
@@ -17,7 +24,10 @@ import {
   point,
   Polygon,
 } from "@turf/helpers";
-import {getBBox, getCoords, manyToOnePropsHandler} from "./utilities";
+import { getBBox, getCoords, manyToOnePropsHandler } from "./utilities";
+
+const validators = {};
+const serializers = {};
 
 /**
  * Used to convert raw GPS returns to GEOJSON objects.

@@ -39,10 +39,12 @@ class Exporter {
       this._global.id = params.id;
     }
 
+    // Used for GPX
     this._global.name =
       params.name ?? `${PACKAGE_INFO.name}@${PACKAGE_INFO.version}`;
     this._global.url = params.url ?? PACKAGE_INFO.homepage;
 
+    // Used for GPX meta data
     if (params.metadata) {
       this._global.metadata = params.metadata;
     }

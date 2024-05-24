@@ -7,9 +7,13 @@ import {
 } from "@turf/helpers";
 
 export interface GPSCoords {
+  // Radius of uncertainty in meters
   accuracy: number;
+  // Altitude in meters relative to sea level.
   altitude: number;
+  // Radius of uncertainty in meters
   altitudeAccuracy: number;
+  // In degrees
   heading: number;
   latitude: number;
   longitude: number;
@@ -134,10 +138,15 @@ export interface GPXLink {
   type?: string;
 }
 
+export interface GPXEmail {
+  "attr-id": string;
+  "attr-domain": string;
+}
+
 export interface GPXPerson {
   name?: string;
   // Emails is a self-closing tag with id (bob) and domain (hisdomain.com) attributes
-  email?: string;
+  email?: string | GPXEmail;
   link?: GPXLink;
 }
 
@@ -148,16 +157,18 @@ export interface GPXBounds {
   maxlon: number;
 }
 
+export interface GPXCopyright {
+  year?: number;
+  // Url
+  license: string;
+}
+
 export interface GPXMetaData {
   name?: string;
   desc?: string;
   author?: GPXPerson;
   // Copyright has an author attribute which represents the copyright holder
-  copyright?: {
-    year: number;
-    // Url
-    license: string;
-  };
+  copyright?: GPXCopyright;
   link?: GPXLink;
   // Creation datetime
   // Formats: 2002-05-30T09:00:00 or 2002-05-30T09:30:10.5
@@ -185,15 +196,10 @@ export interface GPXWaypointTag extends GPXCommon {
   // Datetime
   time?: string;
   // Magnetic variation
-  magvar?: NumericRange<0, 360>;
+  magvar?: number;
   // Height (in meters) of geoid (mean sea level) above WGS84 earth ellipsoid.
   //  As defined in NMEA GGA message.
   geoidheight?: number;
-}
-
-export interface GPXRoute extends GPXCommon {
-  number?: number;
-  rtept?: GPXWaypointTag[];
 }
 
 export interface GPXTrackSegment {

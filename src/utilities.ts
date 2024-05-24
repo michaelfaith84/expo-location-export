@@ -1,4 +1,4 @@
-import {BBox2d, BBox3d, Data, Flattened, GPXBounds,} from "./types";
+import {BBox2d, BBox3d, Data, Flattened, GPXBounds} from "./types";
 import {Position, Properties} from "@turf/helpers";
 import cloneDeep from "lodash.clonedeep";
 
@@ -159,14 +159,29 @@ export const splitEmail = (email: string): string[] => {
   return email.split("@");
 };
 
+/**
+ * In decimal degrees.
+ *
+ * @param latitude
+ */
 export const validateLatitude = (latitude: number) => {
-  return latitude < 90 && latitude > -90;
+  return latitude <= 90 && latitude >= -90;
 };
 
+/**
+ * In decimal degrees.
+ *
+ * @param longitude
+ */
 export const validateLongitude = (longitude: number) => {
-  return longitude < 180 && longitude > -180;
+  return longitude <= 180 && longitude >= -180;
 };
 
+/**
+ * Positions in GeoJSON as [longitude, latitude] per a traditional graph (x, y).
+ *
+ * @param position
+ */
 export const validatePosition = (position: Position) => {
   return validateLongitude(position[0]) && validateLatitude(position[1]);
 };
@@ -181,4 +196,14 @@ export const isValidUrl = (string: string) => {
   }
 
   return url.protocol === "http:" || url.protocol === "https:";
+};
+
+/**
+ * Lower bound is the Dead Sea and the upper is Everest.
+ *
+ * @param altitude In meters
+ * @param [accuracy=0] Margin for error in meters
+ */
+export const validateAltitude = (altitude: number, accuracy: number = 0) => {
+  return altitude + accuracy >= 432.65 && altitude - accuracy <= 8849;
 };

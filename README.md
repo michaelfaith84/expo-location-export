@@ -12,7 +12,7 @@ v2.0.0
 - Rewritten in Typescript.
 - Broke out each format into separate modules.
     - Decoupled GPX and KML from GEOJSON.
-- Removed polygon functionality--it was unnecessary.
+- Removed a bunch of unnecessary formats (Polygon, Route, etc).
 - Switched XML rendering to fast-xml-parser.
 - Links don't provide or validate mime types for the sake of sanity.
 - Format Specific Details:
@@ -62,6 +62,8 @@ Example expo-location return
 ```
 
 </details>
+
+## EVERYTHING BELOW THIS IS OUT OF DATE
 
 ### Example Uses
 
