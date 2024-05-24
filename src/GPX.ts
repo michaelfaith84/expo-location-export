@@ -26,10 +26,10 @@ import {
 } from "./utilities";
 
 // GPX version attributes
-const gpxVersion = 1.1;
-const gpxNS = "https://www.topografix.com/GPX/1/1";
-const gpxXSI = "https://www.w3.org/2001/XMLSchema-instance";
-const gpxSchema =
+export const gpxVersion = 1.1;
+export const gpxNS = "https://www.topografix.com/GPX/1/1";
+export const gpxXSI = "https://www.w3.org/2001/XMLSchema-instance";
+export const gpxSchema =
   "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd";
 
 // Builder config
@@ -43,9 +43,9 @@ const validators = {
   altitude: (altitude: number, altitudeAccuracy: number) =>
     isValidAltitude(altitude, altitudeAccuracy),
   copyright: (copyright: GPXCopyright) => {
-    if (copyright.hasOwnProperty("license") && !isValidUrl(copyright.license)) {
-      return false;
-    }
+    return !(
+      copyright.hasOwnProperty("license") && !isValidUrl(copyright.license)
+    );
   },
   email: (email: string) => isValidEmail(email),
   link: (link: GPXLink) => {
@@ -72,7 +72,7 @@ const validators = {
 
     return true;
   },
-  time: (time: string) => true,
+  time: (time: number) => time >= 1427328000000 && time <= 32503680000000,
   url: (url: string) => isValidUrl(url),
   year: (year: number) => year > 2015 && year <= 3000,
 };
@@ -124,14 +124,23 @@ const serializers = {
 
     return serialized;
   },
+  time: (time: number) => timestampToDatetime(time),
 };
 
 class GPX {
+  /**
+   *
+   *
+   * @param data
+   * @param global
+   * @param options
+   * @private
+   */
   private _buildXML(
     data: Props,
     global: GlobalParams,
     options: GPXExportOptions,
-  ): XMLDocument {
+  ): string {
     const gpx: GPXTag = {
       "attr-xmlns": gpxNS,
       "attr-xmlns:xsi": gpxXSI,
@@ -212,8 +221,10 @@ class GPX {
             }
             break;
           case "time":
-            if (validators["time"](global.metadata?.time as string)) {
-              metadata["time"] = global.metadata?.time;
+            if (validators["time"](global.metadata?.time as number)) {
+              metadata["time"] = serializers["time"](
+                global.metadata?.time as number,
+              );
             }
             break;
           default:
@@ -240,7 +251,7 @@ class GPX {
    */
   private _toWaypoint(data: Data, options: GPXExportOptions) {
     const wpt: GPXWaypointTag = {
-      time: timestampToDatetime(data["timestamp"]),
+      time: serializers["time"](data["timestamp"]),
     };
 
     if (data.id) {
@@ -262,8 +273,8 @@ class GPX {
         case "altitude":
           if (
             validators["altitude"](
-              data.coords["altitude"],
-              data.coords["altitudeAccuracy"],
+              data.coords.altitude,
+              data.coords.altitudeAccuracy,
             )
           ) {
             wpt["ele"] = data.coords["altitude"];

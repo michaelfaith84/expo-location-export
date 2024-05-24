@@ -2,7 +2,7 @@ import PACKAGE_INFO from "../package.json";
 import { FlattenedGPSReturn, GPSReturn } from "../src/types";
 
 export const defaultGlobal = {
-  name: PACKAGE_INFO.name,
+  name: `${PACKAGE_INFO.name}@${PACKAGE_INFO.version}`,
   url: PACKAGE_INFO.homepage,
 };
 

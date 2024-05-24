@@ -175,7 +175,7 @@ export interface GPXMetaData {
   link?: GPXLink;
   // Creation datetime
   // Formats: 2002-05-30T09:00:00 or 2002-05-30T09:30:10.5
-  time?: unknown;
+  time?: string | number;
   keywords?: string;
   bounds?: GPXBounds;
   // Metadata extensions

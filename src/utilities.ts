@@ -205,7 +205,7 @@ export const isValidUrl = (string: string) => {
  * @param [accuracy=0] Margin for error in meters
  */
 export const isValidAltitude = (altitude: number, accuracy: number = 0) => {
-  return altitude + accuracy >= 432.65 && altitude - accuracy <= 8849;
+  return altitude + accuracy >= -432.65 && altitude - accuracy <= 8849;
 };
 
 /**
