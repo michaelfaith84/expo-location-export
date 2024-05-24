@@ -18,7 +18,7 @@ import cloneDeep from "lodash.clonedeep";
 
 const geojson = new GEOJSON();
 
-describe("GEOJSON Point conversion", () => {
+describe("GeoJSON Point conversion", () => {
   test("Single Point to Feature", () => {
     const p = geojson.toPoint(
       [exampleGPSReturn],

@@ -145,7 +145,7 @@ export const bboxToBounds = (bbox: BBox2d | BBox3d) => {
   return bounds;
 };
 
-export const validateEmail = (email: string): boolean => {
+export const isValidEmail = (email: string): boolean => {
   const re = new RegExp(/^[^s@]+@[^s@]+.[^s@]+$/);
   return re.test(email);
 };
@@ -164,7 +164,7 @@ export const splitEmail = (email: string): string[] => {
  *
  * @param latitude
  */
-export const validateLatitude = (latitude: number) => {
+export const isValidLatitude = (latitude: number) => {
   return latitude <= 90 && latitude >= -90;
 };
 
@@ -173,7 +173,7 @@ export const validateLatitude = (latitude: number) => {
  *
  * @param longitude
  */
-export const validateLongitude = (longitude: number) => {
+export const isValidLongitude = (longitude: number) => {
   return longitude <= 180 && longitude >= -180;
 };
 
@@ -182,8 +182,8 @@ export const validateLongitude = (longitude: number) => {
  *
  * @param position
  */
-export const validatePosition = (position: Position) => {
-  return validateLongitude(position[0]) && validateLatitude(position[1]);
+export const isValidPosition = (position: Position) => {
+  return isValidLongitude(position[0]) && isValidLatitude(position[1]);
 };
 
 export const isValidUrl = (string: string) => {
@@ -204,6 +204,15 @@ export const isValidUrl = (string: string) => {
  * @param altitude In meters
  * @param [accuracy=0] Margin for error in meters
  */
-export const validateAltitude = (altitude: number, accuracy: number = 0) => {
+export const isValidAltitude = (altitude: number, accuracy: number = 0) => {
   return altitude + accuracy >= 432.65 && altitude - accuracy <= 8849;
+};
+
+/**
+ *
+ *
+ * @param timestamp
+ */
+export const timestampToDatetime = (timestamp: number) => {
+  return new Date(timestamp).toISOString();
 };

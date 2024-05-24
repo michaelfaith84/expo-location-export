@@ -57,7 +57,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
       speed: 0,
     },
     mocked: false,
-    timestamp: 1674709638292,
+    timestamp: 1674709738292,
   },
   {
     coords: {
@@ -70,7 +70,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
       speed: 0,
     },
     mocked: false,
-    timestamp: 1674709638412,
+    timestamp: 1674709838412,
   },
   {
     coords: {
@@ -83,7 +83,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
       speed: 0,
     },
     mocked: false,
-    timestamp: 1674709638532,
+    timestamp: 1674709938532,
   },
   {
     coords: {
@@ -96,7 +96,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
       speed: 0,
     },
     mocked: false,
-    timestamp: 1674709638652,
+    timestamp: 1674710038652,
   },
   {
     coords: {
@@ -122,7 +122,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
       speed: 0,
     },
     mocked: false,
-    timestamp: 1674709638892,
+    timestamp: 1674712038892,
   },
   {
     coords: {
@@ -135,7 +135,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
       speed: 0,
     },
     mocked: false,
-    timestamp: 1674709639052,
+    timestamp: 1674713639052,
   },
   {
     coords: {
@@ -148,7 +148,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
       speed: 0,
     },
     mocked: false,
-    timestamp: 1674709639172,
+    timestamp: 1674714639172,
   },
   {
     coords: {
@@ -161,7 +161,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
       speed: 0,
     },
     mocked: false,
-    timestamp: 1674709639292,
+    timestamp: 1674715639292,
   },
   {
     coords: {
@@ -174,7 +174,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
       speed: 0,
     },
     mocked: false,
-    timestamp: 1674709639412,
+    timestamp: 1674716639412,
   },
   {
     coords: {
@@ -187,7 +187,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
       speed: 0,
     },
     mocked: false,
-    timestamp: 1674709639532,
+    timestamp: 1674717639532,
   },
   {
     coords: {
@@ -200,7 +200,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
       speed: 0,
     },
     mocked: false,
-    timestamp: 1674709639652,
+    timestamp: 1674718639652,
   },
   {
     coords: {
@@ -213,7 +213,7 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
       speed: 0,
     },
     mocked: false,
-    timestamp: 1674709639772,
+    timestamp: 1674719639772,
   },
   {
     coords: {
@@ -226,6 +226,6 @@ export const exampleGPSReturnSeries: GPSReturn[] = [
       speed: 0,
     },
     mocked: false,
-    timestamp: 1674709639892,
+    timestamp: 1674720639892,
   },
 ];

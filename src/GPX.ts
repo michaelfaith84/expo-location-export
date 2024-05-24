@@ -1,38 +1,53 @@
 // https://www.topografix.com/gpx.asp
 import { XMLBuilder } from "fast-xml-parser";
 import {
+  BBox2d,
+  BBox3d,
   Data,
   GlobalParams,
   GPXCopyright,
   GPXEmail,
   GPXExportOptions,
-  GPXExportTrackOptions,
   GPXLink,
   GPXMetaData,
   GPXPerson,
+  GPXTag,
+  GPXTrack,
   GPXWaypointTag,
   Props,
 } from "./types";
-import { isValidUrl, splitEmail, validateEmail } from "./utilities";
+import {
+  bboxToBounds,
+  isValidAltitude,
+  isValidEmail,
+  isValidUrl,
+  splitEmail,
+  timestampToDatetime,
+} from "./utilities";
 
-const options = {
-  ignoreAttributes: false,
-  attributeNamePrefix: "attr-",
-};
-const builder = new XMLBuilder(options);
-
+// GPX version attributes
+const gpxVersion = 1.1;
 const gpxNS = "https://www.topografix.com/GPX/1/1";
 const gpxXSI = "https://www.w3.org/2001/XMLSchema-instance";
 const gpxSchema =
   "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd";
 
+// Builder config
+const builderOptions = {
+  ignoreAttributes: false,
+  attributeNamePrefix: "attr-",
+  format: true,
+};
+
 const validators = {
+  altitude: (altitude: number, altitudeAccuracy: number) =>
+    isValidAltitude(altitude, altitudeAccuracy),
   copyright: (copyright: GPXCopyright) => {
     if (copyright.hasOwnProperty("license") && !isValidUrl(copyright.license)) {
       return false;
     }
   },
-  email: (email: string) => validateEmail(email),
+  email: (email: string) => isValidEmail(email),
   link: (link: GPXLink) => {
     return link.hasOwnProperty("text") && isValidUrl(link.text);
   },
@@ -40,18 +55,21 @@ const validators = {
     if (person.hasOwnProperty("name") && typeof person.name !== "string") {
       return false;
     }
+
     if (
       person.hasOwnProperty("link") &&
       !validators["link"](person.link as GPXLink)
     ) {
       return false;
     }
+
     if (
       person.hasOwnProperty("email") &&
       !validators["email"](person.email as string)
     ) {
       return false;
     }
+
     return true;
   },
   time: (time: string) => true,
@@ -89,6 +107,7 @@ const serializers = {
   },
   person: (person: GPXPerson) => {
     const serialized: GPXPerson = {};
+
     Object.keys(person).forEach((key: string) => {
       switch (key) {
         case "name":
@@ -102,37 +121,61 @@ const serializers = {
           break;
       }
     });
+
     return serialized;
   },
 };
 
 class GPX {
-  private _buildXML(data: Props, global: GlobalParams): XMLBuilder {
-    const gpx = {
+  private _buildXML(
+    data: Props,
+    global: GlobalParams,
+    options: GPXExportOptions,
+  ): XMLDocument {
+    const gpx: GPXTag = {
       "attr-xmlns": gpxNS,
       "attr-xmlns:xsi": gpxXSI,
       "attr-xsi:schemaLocation": gpxSchema,
-      "attr-version": "1.1",
+      "attr-version": gpxVersion,
       "attr-creator": global.name,
-      metadata: this._generateGPXMetaData(data),
+      metadata: this._generateGPXMetaData(global, options),
     };
 
-    // Add the rest of the tags
-    Object.keys(data).forEach((ea) => {
-      Object.assign(gpx, data[ea]);
-    });
+    if (Object.keys(gpx.metadata as GPXMetaData).length === 0) {
+      delete gpx.metadata;
+    }
+
+    if (data.hasOwnProperty("length")) {
+      gpx["wpt"] = data as GPXWaypointTag[];
+
+      Object.assign(builderOptions, { arrayNodeName: "wpt" });
+    } else {
+      gpx["trk"] = data as GPXTrack;
+
+      Object.assign(builderOptions, { arrayNodeName: "trkpt" });
+    }
+
+    const builder = new XMLBuilder(builderOptions);
 
     // Generate the XML
-    return builder.build(gpx);
+    return builder.build({ gpx: gpx });
   }
 
   /**
    *
    *
    * @param global
+   * @param options
    */
-  private _generateGPXMetaData = (global: GlobalParams): GPXMetaData => {
+  private _generateGPXMetaData = (
+    global: GlobalParams,
+    options: GPXExportOptions,
+  ): GPXMetaData => {
     const metadata: GPXMetaData = {};
+
+    if (options.hasOwnProperty("bbox")) {
+      metadata["bounds"] = bboxToBounds(options.bbox as BBox2d | BBox3d);
+    }
 
     if (global.metadata) {
       Object.keys(global.metadata).forEach((key) => {
@@ -189,32 +232,94 @@ class GPX {
   };
 
   /**
-   * Collection of points
+   * Generates an individual waypoint.
+   *
+   * @param data
+   * @param options
+   * @private
    */
-  private _toWaypoint(data: Data, global: GlobalParams) {
-    const wpt: GPXWaypointTag = {};
-    Object.keys(data).forEach((key) => {
+  private _toWaypoint(data: Data, options: GPXExportOptions) {
+    const wpt: GPXWaypointTag = {
+      time: timestampToDatetime(data["timestamp"]),
+    };
+
+    if (data.id) {
+      wpt["name"] = data.id.toString();
+      delete data.id;
+    }
+
+    if (data.props) {
+      if (data.props.hasOwnProperty("name")) {
+        wpt["name"] = data.props.name;
+        delete data.props.name;
+      }
+
+      wpt["extensions"] = data.props;
+    }
+
+    Object.keys(data.coords).forEach((key) => {
       switch (key) {
         case "altitude":
+          if (
+            validators["altitude"](
+              data.coords["altitude"],
+              data.coords["altitudeAccuracy"],
+            )
+          ) {
+            wpt["ele"] = data.coords["altitude"];
+          }
+          break;
+        case "latitude":
+          wpt["attr-lat"] = data.coords["latitude"];
+          break;
+        case "longitude":
+          wpt["attr-lon"] = data.coords["longitude"];
           break;
       }
     });
+
+    return wpt;
   }
 
   /**
-   * A line with timestamps -- This will probably get nuked
-   */
-  private _toTrack() {}
-
-  /**
-   * A line with timestamps
-   */
-  toTrack(data: Data[], global: GlobalParams, options: GPXExportTrackOptions) {}
-
-  /**
+   * A collection of timestamped waypoints in a track segment.
    *
+   * @param data
+   * @param global
+   * @param options
    */
-  toPoint(data: Data[], global: GlobalParams, options: GPXExportOptions) {}
+  toTrack(data: Data[], global: GlobalParams, options: GPXExportOptions) {
+    const trk: GPXTrack = {
+      trkseg: [
+        {
+          trkpt: data.map((ea, i) =>
+            this._toWaypoint(Object.assign(ea, { name: i }), options),
+          ),
+        },
+      ],
+    };
+
+    if (global.id) {
+      trk["name"] = global.id.toString();
+    }
+
+    return this._buildXML(trk, global, options);
+  }
+
+  /**
+   * A series of single waypoints.
+   *
+   * @param data
+   * @param global
+   * @param options
+   */
+  toPoint(data: Data[], global: GlobalParams, options: GPXExportOptions) {
+    const wpt = data.map((ea, i) => {
+      return this._toWaypoint(Object.assign(ea, { id: i }), options);
+    });
+
+    return this._buildXML(wpt, global, options);
+  }
 }
 
 export default GPX;

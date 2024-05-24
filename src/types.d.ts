@@ -102,10 +102,6 @@ export type GEOJSONExportPointReturn<A extends GEOJSONWrapper> = A extends
       ? Point | MultiPoint
       : never;
 
-export interface GPXExportTrackOptions extends GPXExportOptions {
-  type?: "track" | "route";
-}
-
 export interface GPXExportOptions extends CommonExportOptions {}
 
 export interface KMLExportOptions extends CommonExportOptions {}
@@ -125,9 +121,16 @@ export type ExportOptions =
 
 // Attributes: version: 1.1, creator: software that made the GPX doc - name or url
 export interface GPXTag {
+  "attr-xmlns"?: string;
+  "attr-xmlns:xsi"?: string;
+  "attr-xsi:schemaLocation"?: string;
+  "attr-version"?: number;
+  "attr-creator"?: string;
   metadata?: GPXMetaData;
   // Extensions to this document
   extensions?: Props;
+  wpt?: GPXWaypointTag[];
+  trk?: GPXTrack;
 }
 
 // Link has an href attribute
@@ -200,6 +203,8 @@ export interface GPXWaypointTag extends GPXCommon {
   // Height (in meters) of geoid (mean sea level) above WGS84 earth ellipsoid.
   //  As defined in NMEA GGA message.
   geoidheight?: number;
+  "attr-lat"?: number;
+  "attr-lon"?: number;
 }
 
 export interface GPXTrackSegment {
@@ -208,6 +213,9 @@ export interface GPXTrackSegment {
 }
 
 export interface GPXTrack extends GPXCommon {
+  name?: string;
+  desc?: string;
+  link?: GPXLink;
   number?: number;
   trkseg?: GPXTrackSegment[];
 }
