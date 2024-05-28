@@ -31,12 +31,9 @@ describe("GPX Point conversion", () => {
     expect(XMLValidator.validate(xml)).toBeTruthy();
     const parsed = parser.parse(xml);
     expect(parsed.gpx.metadata).toBeDefined();
-    expect(parsed.gpx.metadata.copyright).toBeDefined();
-    expect(parsed.gpx.metadata.copyright.license).toBeDefined();
     expect(parsed.gpx.metadata.copyright.license).toEqual(
       "https://mit-license.org/",
     );
-    expect(parsed.gpx.metadata.copyright.year).toBeDefined();
     expect(parsed.gpx.metadata.copyright.year).toEqual(
       new Date().getFullYear(),
     );
@@ -55,6 +52,7 @@ describe("GPX Point conversion", () => {
     );
     expect(parsed.gpx.wpt.ele).toEqual(exampleGPSReturn.coords.altitude);
   });
+
   test("Many Points to Waypoint with Bounds", () => {
     const xml = gpx.toPoint(cloneDeep(exampleGPSReturnSeries), defaultGlobal, {
       bbox: getBBox(exampleGPSReturnSeries),

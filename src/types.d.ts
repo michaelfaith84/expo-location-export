@@ -219,3 +219,22 @@ export interface GPXTrack extends GPXCommon {
   number?: number;
   trkseg?: GPXTrackSegment[];
 }
+
+// KML
+
+export interface KMLGeometry {
+  name?: ID;
+  description?: string;
+}
+
+export interface KMLPoint extends KMLGeometry {
+  Point: {
+    coordinates: string;
+  };
+}
+
+export interface KMLLineString extends KMLGeometry {
+  LineString: {
+    coordinates: string;
+  };
+}

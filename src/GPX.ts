@@ -136,7 +136,7 @@ class GPX {
    * @param options
    * @private
    */
-  private _buildXML(
+  private _buildGPX(
     data: Props,
     global: GlobalParams,
     options: GPXExportOptions,
@@ -286,6 +286,9 @@ class GPX {
         case "longitude":
           wpt["attr-lon"] = data.coords["longitude"];
           break;
+        case "heading":
+          wpt["magvar"] = data.coords.heading;
+          break;
       }
     });
 
@@ -314,7 +317,7 @@ class GPX {
       trk["name"] = global.id.toString();
     }
 
-    return this._buildXML(trk, global, options);
+    return this._buildGPX(trk, global, options);
   }
 
   /**
@@ -329,7 +332,7 @@ class GPX {
       return this._toWaypoint(Object.assign(ea, { id: i }), options);
     });
 
-    return this._buildXML(wpt, global, options);
+    return this._buildGPX(wpt, global, options);
   }
 }
 

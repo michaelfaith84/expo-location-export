@@ -1,4 +1,4 @@
-import GEOJSON from "../src/GEOJSON";
+import GeoJSON from "../src/GeoJSON";
 import {
   defaultGlobal,
   exampleGPSReturn,
@@ -16,7 +16,7 @@ import { flatten, getCoords } from "../src/utilities";
 import { Data } from "../src/types";
 import cloneDeep from "lodash.clonedeep";
 
-const geojson = new GEOJSON();
+const geojson = new GeoJSON();
 
 describe("GeoJSON Point conversion", () => {
   test("Single Point to Feature", () => {

@@ -6,13 +6,13 @@ import {
   ExportOptions,
   GlobalParams,
 } from "./types";
-import GEOJSON from "./GEOJSON";
+import GeoJSON from "./GeoJSON";
 import GPX from "./GPX";
 import KML from "./KML";
 import { flatten, getBBox } from "./utilities";
 import cloneDeep from "lodash.clonedeep";
 
-const geojson = new GEOJSON();
+const geojson = new GeoJSON();
 const gpx = new GPX();
 const kml = new KML();
 
@@ -125,11 +125,11 @@ class Exporter {
 
     switch (format.toLowerCase()) {
       case "geojson":
-        return geojson.toPoint(data, this.global, options);
+        return geojson.toPoint(data, this._global, options);
       case "gpx":
-        return gpx.toPoint(data, this.global, options);
+        return gpx.toPoint(data, this._global, options);
       case "kml":
-        return "";
+        return kml.toPoint(data, this._global, options);
       default:
         throw new Error(`Unknown format: ${format}`);
     }
@@ -152,11 +152,11 @@ class Exporter {
 
     switch (format.toLowerCase()) {
       case "geojson":
-        return geojson.toLineString(data, this.global, options);
+        return geojson.toLineString(data, this._global, options);
       case "gpx":
-        return gpx.toTrack(data, this.global, options);
+        return gpx.toTrack(data, this._global, options);
       case "kml":
-        return "";
+        return kml.toLineString(data, this._global, options);
       default:
         throw new Error(`Unknown format: ${format}`);
     }

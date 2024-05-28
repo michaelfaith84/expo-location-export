@@ -34,7 +34,7 @@ const serializers = {};
  *
  * Defaults to returning a Feature or FeatureCollection.
  */
-class GEOJSON {
+class GeoJSON {
   /**
    * Converts an array of Features to a GeometryCollection
    *
@@ -243,4 +243,4 @@ class GEOJSON {
   }
 }
 
-export default GEOJSON;
+export default GeoJSON;
