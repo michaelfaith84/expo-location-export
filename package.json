@@ -1,6 +1,6 @@
 {
   "name": "expo-location-export",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "description": "A simple package to convert raw expo-location output to geojson, gpx, and kml",
   "main": "index.js",
   "scripts": {
@@ -31,7 +31,6 @@
   "license": "ISC",
   "dependencies": {
     "@turf/bbox": "^6.5.0",
-    "@turf/center": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "fast-xml-parser": "^4.4.0",
     "lodash.clonedeep": "^4.5.0"
