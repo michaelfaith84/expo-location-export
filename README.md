@@ -7,7 +7,37 @@
 
             in a very opinionated manner.
 
-    Output defaults to pretty strings so you're ready to save as a file or share.
+v2.0.0
+
+- Rewritten in Typescript.
+- Broke out each format into separate modules.
+    - Decoupled GPX and KML from GEOJSON.
+- Removed a bunch of unnecessary formats (Polygon, Route, etc).
+- Switched XML rendering to fast-xml-parser.
+- Links don't provide or validate mime types for the sake of sanity.
+- Format Specific Details:
+    - GEOJSON
+        - Output geometries: Point, MultiPoint, or LineString.
+        - Wrappers: GeometryCollection, FeatureCollection, Feature, or none.
+    - GPX
+        - Output types: WayPoint or Track.
+        - Metadata is stored in the "global" property.
+    - KML
+
+<details>
+<summary>Past Versions</summary>
+
+v1.1.0
+
+- Removed 'load' method -> the constructor can take the dump as the param
+
+v1.0.1
+
+- Switched to the AirBNB Styleguide.
+- Changed the switch 'type' parameter to lowercase.
+- Corrected license year (2022 not 2021)
+
+</details>
 
 Read more about [expo-location](https://github.com/expo/expo-location).
 <details>
@@ -18,176 +48,56 @@ Example expo-location return
 ```json
 {
   "coords": {
-  "accuracy": 11.553999900817871,
-  "altitude": 36.900001525878906,
-  "altitudeAccuracy": 2.5298962593078613,
-  "heading": 0,
-  "latitude": 48.8317425,
-  "longitude": -121.4438241,
-  "speed": 0
-},
-"mocked": false,
-"timestamp": 1674709638052
+    "accuracy": 11.553999900817871,
+    "altitude": 36.900001525878906,
+    "altitudeAccuracy": 2.5298962593078613,
+    "heading": 0,
+    "latitude": 48.8317425,
+    "longitude": -121.4438241,
+    "speed": 0
+  },
+  "mocked": false,
+  "timestamp": 1674709638052
 }
 ```
 
 </details>
 
+## EVERYTHING BELOW THIS IS OUT OF DATE
 
 ### Example Uses
 
-<details>
-<summary>
-GeoJSON:
-</summary>
+```javascript 
+const exporter = new Exporter()
+exporter.add(expoObject)
+exporter.add(nextExpoObject)
 
-- point feature
-```javascript
-const point = new Exporter({gps: expoObject})
-point.toGeoJSON()
-```
-- multi-point feature
-```javascript
-const mp = new Exporter({gps: [expoObj1, expoObj2]})
-mp.toGeoJSON()
-// please, sir, can i have another?
-mp.add({gps: newObj})
-mp.toGeoJSON()
-// but this time with props
-mp.add({gps: newObj, props: {id: 1, name: "fooBar"}})
-mp.toGeoJSON()
-```
-- feature collection of points
-```javascript
-const props = [{id: 1, name: "foo"}, 
-               {id: 2, name: "bar"}]
-const points = new Exporter({gps: [expoObj1, expoOb2], 
-                             props: props})
-points.toGeoJSON()
-```
-- feature collection need an id?
-```javascript
-const points = new Exporter({gps: [expoObj1, expoOb2], 
-                             props,
-                             options: {id: 57}})
-```
-- linestring feature
-```javascript
-const ls = new Exporter({gps: [expoObj1, expoObj2]})
-ls.toGeoJSON({type: "linestring"})
-```
-- polygon feature
-```javascript
-const poly = new Exporter({gps: [expoObj1, expoObj2, expoObj3, expoObg4]})
-poly.toGeoJSON("polygon")
-```
-- want the object instead of a string?
-```javascript
-const point = new Exporter({gps: expoObj})
-point.toGeoJSON("point", true)
-```
-</details>
+// Dump the data
+const exporterDump = exporter.dump()
 
-<br />
+// Load the dump
+const loaded = Exporter.load(exporterDump)
 
-<details>
-<summary>
-GPX:
-</summary>
+// GPX metadata is added to the constructor
+const withMetaData = new Exporter({
+    id: 'a day out',
+    metadata: {
+        author: 'John Smith'
+    }
+})
 
-- waypoint
-```javascript
-const waypoint = new Exporter({gps: expoObj, 
-                                  props: {
-                                     name: "foo", 
-                                     desc: "good scheisse"
-                                  }
-                              })
-waypoint.toGPX()
-// Set of points? But only the first has any props.
-waypoint.add({gps: newObj})
-waypoint.toGPX()
-```
-- track
-```javascript
-const track = new Exporter({gps: [expoObj, expoObj]}) 
-track.toGPX("track")
-```
-- change the info in the gpx header
-```javascript
-const pt = new Exporter({gps: expoObj, 
-                            options: {
-                               app: {
-                                  name: "my app", 
-                                  url: "https://myappsite.com"
-                               }
-                            }
-                        })
-```
-- un-end()'d xmlbuilder2 object instead of a string
-```javascript
-const pt = new Exporter({gps: expoObj})
-pt.toGPX("waypoint", true)
-```
-</details>
-<br />
-
-<details>
-<summary>
-KML:
-</summary>
-
-- point
-
-```javascript
-const point = new Exporter({gps: expoObj, 
-                                props: {
-                                    name: "foo", 
-                                    desc: "good scheisse"
-                                }
-                            })
-point.toKML()
-// mass, por favor
-point.add({gps: newObj, props: newProps})
-point.toKML()
+// Exporting
+exporter.toPoint("geojson")
+exporter.toPoint("gpx")
+exporter.toPoint("kml")
+exporter.toLine("geojson")
+exporter.toLine("gpx")
+exporter.toLine("kml")
 ```
 
-- lineString
+#### Built with
 
-```javascript
-const linestring = new Exporter({gps: expoObjArr, 
-                                    props: {
-                                        name: "fooBar"
-                                    }
-                                })
-linestring.toKML("linestring")
-```
-
-- export as raw xmlbuilder2 object rather than string
-```javascript
-linestring.toKML("point", true)
-```
-
-</details>
-<br />
-
-<details>
-<summary>
-Dump/Load:
-</summary>
-
-```javascript
-const fooBar = new Exporter({gps, props, options})
-const jsonDump = JSON.stringify(fooBar.dump())
-localStorage.setItem('fooBar', jsonDump)
-...
-const newFoo = new Exporter()
-newFoo.load(JSON.parse(localStorage.getItem('fooBar')))
-```
-
-</details>
-
-#### Built with 
-
-- [Turf](https://github.com/Turfjs/turf)
-- [xmlbuilder2](https://github.com/oozcitak/xmlbuilder2)
+- [Typescript](https://github.com/microsoft/TypeScript)
+- [Turf.js](https://github.com/Turfjs/turf)
+- [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser)
+- [Lodash](https://github.com/lodash/lodash)'s cloneDeep
