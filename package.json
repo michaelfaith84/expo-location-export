@@ -1,6 +1,6 @@
 {
   "name": "expo-location-export",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A simple package to convert raw expo-location output to geojson, gpx, and kml",
   "main": "index.js",
   "scripts": {

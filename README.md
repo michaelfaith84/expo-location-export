@@ -63,8 +63,6 @@ Example expo-location return
 
 </details>
 
-## EVERYTHING BELOW THIS IS OUT OF DATE
-
 ### Example Uses
 
 ```javascript 
